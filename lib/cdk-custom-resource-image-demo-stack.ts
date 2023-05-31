@@ -17,7 +17,7 @@ export class CdkCustomResourceImageDemoStack extends Stack {
     const repo = ecr.Repository.fromRepositoryName(this, 'PublicPullThrough', 'ecr-public/h8t8t4y6/ecrpublicstack-repo-q7s9eqxa0udf');
     const onEventHandler = new lambda.Function(this, 'Handler', {
       code: lambda.Code.fromEcrImage(repo, {
-        tagOrDigest: 'sha256:2ffb3d7ee09b749b5ecd0ced1cbc69cacd16a9105044ae809b0d4e7f51ea2b6b',
+        tagOrDigest: 'sha256:09f2b287ec42530101c6261e7262745fa524d31313867146afe89407d546147d',
       }),
       handler: lambda.Handler.FROM_IMAGE,
       runtime: lambda.Runtime.FROM_IMAGE,
@@ -57,6 +57,10 @@ export class ECRPublic extends Stack {
           ],
         }]
       },
+    });
+    new ecr.CfnPullThroughCacheRule(this, 'PullThroughCache', {
+      ecrRepositoryPrefix: 'ecr-public',
+      upstreamRegistryUrl: 'public.ecr.aws',
     });
   }
 }
